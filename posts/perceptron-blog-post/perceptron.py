@@ -41,7 +41,7 @@ class Perceptron:
         self.w = np.random.rand(self.X_.shape[1]-1,1)
         bias = np.random.uniform(0, 1)
         self.w_ = np.append(self.w, -bias)
-        self.w_ = self.w_.reshape(3,1)
+        self.w_ = self.w_.reshape(self.X_.shape[1],1)
     
     
     """

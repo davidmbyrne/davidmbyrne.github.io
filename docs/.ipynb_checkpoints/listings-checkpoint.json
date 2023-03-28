@@ -2,9 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/penguins-blog-post/index.html",
       "/posts/gradient-descent-blog-post/index.html",
       "/posts/perceptron-blog-post/index.html",
+      "/posts/penguins-blog-post/index.html",
       "/posts/example-blog-post/index.html"
     ]
   }

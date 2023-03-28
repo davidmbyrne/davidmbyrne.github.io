@@ -2,7 +2,6 @@
   {
     "listing": "/index.html",
     "items": [
-      "/posts/gradient-descent-blog-post/LRtest.html",
       "/posts/gradient-descent-blog-post/index.html",
       "/posts/perceptron-blog-post/index.html",
       "/posts/penguins-blog-post/index.html",

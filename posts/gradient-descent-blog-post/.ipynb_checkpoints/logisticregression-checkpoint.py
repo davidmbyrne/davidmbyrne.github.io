@@ -16,14 +16,6 @@ class LogisticRegression:
         self.guess = (np.dot(X, w) >= 0).astype(int)
         return self.guess
         
-    def fit(self, X, y):
-        self.loss_history = []
-        self.score_history = []
-        w = np.random.rand(2,1)
-        bias = np.random.uniform(0,1)
-        self.w_ = np.append(w, -bias)
-        self.X_ = np.append(X, np.ones((X.shape[0], 1)), 1)
-        
     def sigmoid(self, z):
         return 1 / (1+ np.exp(-z))
     
@@ -35,15 +27,15 @@ class LogisticRegression:
         return self.logistic_loss(y_hat, y).mean()
     
     def gradient(self, w, X, y):
-        w = w.reshape(3,1)
+        w = w.reshape(self.X_.shape[1] , 1)
         sigdot = (np.dot(X, w) >= 0).astype(int)
-        return np.sum(np.multiply(X,(self.sigmoid(sigdot) - y.reshape(len(y),1))))
+        return np.sum(np.multiply(X,(self.sigmoid(sigdot) - y.reshape(len(y),1))))/X.shape[0]
     
     def fit_stochastic(self, X, y, m_epochs, alpha, batch_size):
         prev_loss = np.inf
         self.loss_history = []
         self.score_history = []
-        w = np.random.rand(2,1)
+        w = np.random.rand(X.shape[1], 1)
         bias = np.random.uniform(0,1)
         self.w_ = np.append(w, -bias)
         self.X_ = np.append(X, np.ones((X.shape[0], 1)), 1)
@@ -69,9 +61,9 @@ class LogisticRegression:
                 return
             else:
                 prev_loss = new_loss
-        print("AHHHHHHHHHH")
+        print("Too many epochs")
                 
-    def fit2(self, X, y, m_epochs, alpha):
+    def fit(self, X, y, m_epochs, alpha):
         prev_loss = np.inf
         self.loss_history = []
         self.score_history = []
@@ -92,4 +84,4 @@ class LogisticRegression:
                 return
             else:
                 prev_loss = new_loss
-        print("AHHHHHHHHHH")
+        self.stop = "too many"

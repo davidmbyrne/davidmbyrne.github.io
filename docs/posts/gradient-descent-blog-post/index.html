@@ -233,46 +233,40 @@ background-size: cover;
 <section id="source-code" class="level4">
 <h4 class="anchored" data-anchor-id="source-code">Source Code</h4>
 <p>Source code for this post can be found at https://github.com/davidmbyrne/davidmbyrne.github.io/blob/main/posts/gradient-descent-blog-post/logisticregression.py</p>
+<p>The implementation of gradient descent was rather straightforward. The gradient method was rather significant, and employed the logistic sigmoid function to calculate:<br>
+<span class="math display">\[\nabla L(w) = \frac{1}{n} \sum_{i=1}^n (\sigma(\langle w,x_i \rangle) - y_i)x_i\]</span> I used this value in the update step of the fit method, <span class="math display">\[w^{(i+1)} = w^{(i)} - \alpha \nabla L(w)\]</span> where alpha is the model’s learning rate. This update is called anytime that the current loss calculated by the empirical risk method is not computationally close to the previous loss. Once our loss function is successfully minimized, the algorithm converges to a value for <span class="math inline">\(w\)</span> .</p>
 </section>
 <section id="playing-with-learning-rate" class="level4">
 <h4 class="anchored" data-anchor-id="playing-with-learning-rate">Playing with learning rate</h4>
 <p>One of the variables that gradient decent utlizes is the learning rate, or alpha. We utilize this value in calculating a new weight vector <span class="math inline">\(w\)</span>, and it determines the impact that the gradient has in each step of modifying <span class="math inline">\(w\)</span>. A small value of alpha will make the steps from each iteration to the next smaller, while a larger alpha will cause larger jumps. When choosing an effective value for alpha, it is important to consider this balance. A very small alpha will cause the minimization of the loss function to take a long time to converge, but too large of an alpha value will make it impossible to converge at all. We can observe this case of non convergence.</p>
-<div class="cell" data-execution_count="86">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">14</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_moons(n_samples <span class="op">=</span> <span class="dv">100</span>, noise <span class="op">=</span> <span class="fl">0.35</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> plt.scatter(X[:,<span class="dv">0</span>], X[:,<span class="dv">1</span>], c <span class="op">=</span> y)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>xlab <span class="op">=</span> plt.xlabel(<span class="st">"Feature 1"</span>)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ylab <span class="op">=</span> plt.ylabel(<span class="st">"Feature 2"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display">
-<p><img src="index_files/figure-html/cell-3-output-1.png" class="img-fluid"></p>
-</div>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>X, y <span class="op">=</span> make_moons(n_samples <span class="op">=</span> <span class="dv">100</span>, noise <span class="op">=</span> <span class="fl">0.35</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="appropriate-alpha" class="level5">
 <h5 class="anchored" data-anchor-id="appropriate-alpha">Appropriate Alpha</h5>
-<div class="cell" data-execution_count="215">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>m_epochs <span class="op">=</span> <span class="dv">1000</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="fl">0.1</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, m_epochs, alpha)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Converged after "</span> <span class="op">+</span> <span class="bu">str</span>(LR.stop) <span class="op">+</span> <span class="st">" tries"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, m_epochs, alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Converged after 3 tries</code></pre>
+<pre><code>Converged after 12 tries</code></pre>
 </div>
 </div>
 </section>
 <section id="too-large-of-an-alpha" class="level5">
 <h5 class="anchored" data-anchor-id="too-large-of-an-alpha">Too Large of an Alpha</h5>
-<div class="cell" data-execution_count="220">
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>random.seed(<span class="dv">14</span>)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>LR <span class="op">=</span> LogisticRegression()</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>m_epochs <span class="op">=</span> <span class="dv">1000</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="dv">5</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>alpha <span class="op">=</span> <span class="dv">3</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, m_epochs, alpha)</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Converged after "</span> <span class="op">+</span> <span class="bu">str</span>(LR.stop) <span class="op">+</span> <span class="st">" tries"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>LR.fit(X, y, m_epochs, alpha)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Converged after too many tries</code></pre>
+<pre><code>Reached maximum epochs before converging</code></pre>
 </div>
 </div>
 </section>

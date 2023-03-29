@@ -47,7 +47,7 @@ class LogisticRegression:
         return self.logistic_loss(y_hat, y).mean()
     
     '''
-    
+    Computes the gradient of the empircal risk for logistic regression
     '''
     def gradient(self, w, X, y):
         w = w.reshape(self.X_.shape[1] , 1)
@@ -55,7 +55,13 @@ class LogisticRegression:
         return np.sum(np.multiply(X,(self.sigmoid(sigdot) - y.reshape(len(y),1))))/X.shape[0]
     
     '''
-    
+    Stochastic Gradient Descent:
+    Utilizes "batches" of data points when compiuting the gradient instead of all points
+        -input batch_size determines how large each batch is
+        -randomly divide the input array X into groups of size equal to batch_size then
+            run gradient update step
+    Runs until the previous and current loss calculated using empirical risk are 
+    computationally close using numpy function isclose()
     '''
     def fit_stochastic(self, X, y, m_epochs, alpha, batch_size):
         prev_loss = np.inf
@@ -93,7 +99,11 @@ class LogisticRegression:
             print("Reached maximum epochs before converging")
     
     '''
-    
+    Gradient Descent:
+    Updates weight vector w according to gradient descent update rule
+        w(i+1) = w(i) - alpha*gradient
+    until the current and previous loss calculated using empirical risk are computationally
+    close using numpy function isclose()
     '''
     def fit(self, X, y, m_epochs, alpha):
         prev_loss = np.inf

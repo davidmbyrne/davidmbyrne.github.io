@@ -35,13 +35,22 @@ class Perceptron:
     creating our initial weights, as well as preparing our variables for computational 
     use by appending a column of ones to our matrix X and reshaping our weight vector w.
     '''
-    def fit(self, X, y):
+    def fit(self, X, y, max_iter):
         self.history = []
         self.X_ = np.append(X, np.ones((X.shape[0], 1)), 1)
         self.w = np.random.rand(self.X_.shape[1]-1,1)
         bias = np.random.uniform(0, 1)
         self.w_ = np.append(self.w, -bias)
         self.w_ = self.w_.reshape(self.X_.shape[1],1)
+        
+        for i in range(max_iter):
+            self.predict(self.X_) #Make predictions
+            self.currscore = self.score(self.X_, y) #Score current weight 
+            self.history.append(self.currscore)
+            if self.currscore == 1:
+                break
+            elif self.currscore < 1:
+                self.perceptron_update(self.X_, y, self.w_) #Update weight vector if score is not 1.0
     
     
     """

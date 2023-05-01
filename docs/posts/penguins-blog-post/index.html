@@ -221,7 +221,7 @@ background-size: cover;
 <h2 class="anchored" data-anchor-id="classifying-palmer-penguins">Classifying Palmer Penguins</h2>
 <section id="importing-packages-and-reading-in-our-data" class="level4">
 <h4 class="anchored" data-anchor-id="importing-packages-and-reading-in-our-data">Importing packages and reading in our data</h4>
-<div class="cell" data-execution_count="41">
+<div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
@@ -254,7 +254,7 @@ and The Gentoo Penguin<br>
 <section id="building-the-model" class="level4">
 <h4 class="anchored" data-anchor-id="building-the-model">Building the Model</h4>
 <p>The aim of this post was to identify a subset of the available features that could be used to train a classification model. To accomplish this task, we must first prepare the data accordingly, which we do using the following function prepare_data. This function drops identifying information from the study which will not be useful in predictive modeling, as well as separating the target vector from the rest of the dataset.</p>
-<div class="cell" data-execution_count="43">
+<div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> LabelEncoder</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>le <span class="op">=</span> LabelEncoder()</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>le.fit(train[<span class="st">"Species"</span>])</span>
@@ -271,8 +271,8 @@ and The Gentoo Penguin<br>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>X_train, y_train <span class="op">=</span> prepare_data(train)</span>
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>X_test, y_test <span class="op">=</span> prepare_data(test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>With our data appropriately cleaned and partitioned, we can now begin to formulate a model. The model of choice here is a random forest, which is an ensemble method made up of multiple decision trees. These individual trees are created from random independent samples or subsets of data, whose decisions are averaged in making predictions. To effectively choose features that accurately predict penguin species, we can build multiple models using different, independent combinations of columns. We can evaluate each of these models and score them to quantify their performance and choose the combination which obtains the highest score. The following block of code selects a unique subset of columns, both qualitative and quantitative, trains a model using the partitioned training dataset, and tests its accuracy on the testing dataset.</p>
-<div class="cell" data-execution_count="44">
+<p>With our data appropriately cleaned and partitioned, we can now begin to formulate a model. The model of choice here is a random forest, which is an ensemble method made up of multiple decision trees. These individual trees are created from random independent samples or subsets of data, whose decisions are averaged in making predictions. To effectively choose features that accurately predict penguin species, we can build multiple models using different, independent combinations of columns. We can evaluate each of these models and score them to quantify their performance and choose the combination which obtains the highest score. The following block of code selects a unique subset of columns, both qualitative and quantitative, trains a model using the partitioned training dataset, and tests its accuracy.</p>
+<div class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> itertools <span class="im">import</span> combinations</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier </span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> accuracy_score</span>
@@ -288,35 +288,35 @@ and The Gentoo Penguin<br>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    rfc <span class="op">=</span> RandomForestClassifier()</span>
 <span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    X_train_curr <span class="op">=</span> X_train[cols]</span>
 <span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    rfc.fit(X_train_curr, y_train)</span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    preds <span class="op">=</span> rfc.predict(X_test[cols])</span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Model Score: "</span> <span class="op">+</span> <span class="bu">str</span>(accuracy_score(y_test, preds)))</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    preds <span class="op">=</span> rfc.predict(X_train[cols])</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Model Score: "</span> <span class="op">+</span> <span class="bu">str</span>(accuracy_score(y_train, preds)))</span>
 <span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    </span>
 <span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Columns: ['Culmen Length (mm)', 'Culmen Depth (mm)', 'Island_Biscoe', 'Island_Dream', 'Island_Torgersen']
-Model Score: 0.9852941176470589
+Model Score: 1.0
 Columns: ['Culmen Length (mm)', 'Flipper Length (mm)', 'Island_Biscoe', 'Island_Dream', 'Island_Torgersen']
-Model Score: 0.9852941176470589
+Model Score: 1.0
 Columns: ['Culmen Depth (mm)', 'Flipper Length (mm)', 'Island_Biscoe', 'Island_Dream', 'Island_Torgersen']
-Model Score: 0.8529411764705882
+Model Score: 0.98046875
 Columns: ['Culmen Length (mm)', 'Culmen Depth (mm)', 'Sex_FEMALE', 'Sex_MALE']
-Model Score: 0.9852941176470589
+Model Score: 1.0
 Columns: ['Culmen Length (mm)', 'Flipper Length (mm)', 'Sex_FEMALE', 'Sex_MALE']
 Model Score: 1.0
 Columns: ['Culmen Depth (mm)', 'Flipper Length (mm)', 'Sex_FEMALE', 'Sex_MALE']
-Model Score: 0.8088235294117647
+Model Score: 0.9765625
 Columns: ['Culmen Length (mm)', 'Culmen Depth (mm)', 'Clutch Completion_No', 'Clutch Completion_Yes']
-Model Score: 0.9705882352941176
+Model Score: 1.0
 Columns: ['Culmen Length (mm)', 'Flipper Length (mm)', 'Clutch Completion_No', 'Clutch Completion_Yes']
-Model Score: 0.9852941176470589
+Model Score: 1.0
 Columns: ['Culmen Depth (mm)', 'Flipper Length (mm)', 'Clutch Completion_No', 'Clutch Completion_Yes']
-Model Score: 0.7647058823529411</code></pre>
+Model Score: 0.98046875</code></pre>
 </div>
 </div>
-<p>While many of the models achieved high accuracy scores, only one achieved 100% testing accuracy. The features used in the creation of this model were Culmen Length, Flipper Length, and Sex. To get a better understanding of why or how these features led to the best model, we can look at some summary statistics at the species level.</p>
-<div class="cell" data-execution_count="42">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>train.groupby([<span class="st">"Species"</span>, <span class="st">"Sex"</span>])[[<span class="st">"Culmen Length (mm)"</span>, <span class="st">"Flipper Length (mm)"</span>]].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="42">
+<p>We find that many of these combinations can create perfect accuracy models on testing data. In fact, all combinations besides those with culmen length and flipper length as the quantitative columns work just as well, regardless of qualitative factors. I would predict that utilizing sex along with physical measurements would likely yield high accuracy results for future data points, so I will begin by broadly choosing it as a qualitative feature as we continue to look for good quantitative factors. To get a better understanding of these factors and how they will contribute to a model we can look at some basic summary statistics.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>train.groupby([<span class="st">"Species"</span>, <span class="st">"Sex"</span>])[[<span class="st">"Culmen Length (mm)"</span>, <span class="st">"Flipper Length (mm)"</span>, <span class="st">"Culmen Depth (mm)"</span>]].mean()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="5">
 
 <div>
 
@@ -327,10 +327,12 @@ Model Score: 0.7647058823529411</code></pre>
       <th></th>
       <th>Culmen Length (mm)</th>
       <th>Flipper Length (mm)</th>
+      <th>Culmen Depth (mm)</th>
     </tr>
     <tr>
       <th>Species</th>
       <th>Sex</th>
+      <th></th>
       <th></th>
       <th></th>
     </tr>
@@ -341,45 +343,51 @@ Model Score: 0.7647058823529411</code></pre>
       <th>FEMALE</th>
       <td>37.100000</td>
       <td>187.719298</td>
+      <td>17.645614</td>
     </tr>
     <tr>
       <th>MALE</th>
       <td>40.458182</td>
       <td>192.690909</td>
+      <td>19.116364</td>
     </tr>
     <tr>
       <th rowspan="2" valign="top">Chinstrap penguin (Pygoscelis antarctica)</th>
       <th>FEMALE</th>
       <td>46.424138</td>
       <td>191.551724</td>
+      <td>17.641379</td>
     </tr>
     <tr>
       <th>MALE</th>
       <td>51.185185</td>
       <td>199.666667</td>
+      <td>19.303704</td>
     </tr>
     <tr>
       <th rowspan="2" valign="top">Gentoo penguin (Pygoscelis papua)</th>
       <th>FEMALE</th>
       <td>45.600000</td>
       <td>212.928571</td>
+      <td>14.242857</td>
     </tr>
     <tr>
       <th>MALE</th>
       <td>49.592593</td>
       <td>221.462963</td>
+      <td>15.687037</td>
     </tr>
   </tbody>
 </table>
 </div>
 </div>
 </div>
-<p>Looking at the average culmen and flipper lengths across species and sexes, we notice that Gentoo penguins have a notably high flipper length and Adelie penguins have shorter culmens compared to the other species. To better understand this distinction we can visualize these metrics using a scatter plot, faceted by sex.</p>
-<div class="cell" data-execution_count="47">
+<p>From this table we can begin to identify pairs of features that have some level of seperability. Looking at the average culmen and flipper lengths across species and sexes, we notice that Gentoo penguins have a notably high flipper length and Adelie penguins have shorter culmens compared to the other species. To better understand this distinction we can visualize these metrics using a scatter plot, faceted by sex.</p>
+<div class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>g <span class="op">=</span> sns.FacetGrid(data <span class="op">=</span> train, col <span class="op">=</span> <span class="st">'Sex'</span>, hue <span class="op">=</span> <span class="st">'Species'</span>)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>g.<span class="bu">map</span>(sns.scatterplot, <span class="st">"Culmen Length (mm)"</span>, <span class="st">"Flipper Length (mm)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="47">
-<pre><code>&lt;seaborn.axisgrid.FacetGrid at 0x7fe723493d60&gt;</code></pre>
+<div class="cell-output cell-output-display" data-execution_count="5">
+<pre><code>&lt;seaborn.axisgrid.FacetGrid at 0x7f8bbfe3fb20&gt;</code></pre>
 </div>
 <div class="cell-output cell-output-display">
 <p><img src="index_files/figure-html/cell-6-output-2.png" class="img-fluid"></p>
@@ -390,7 +398,7 @@ Model Score: 0.7647058823529411</code></pre>
 <section id="final-model-and-decision-regions" class="level4">
 <h4 class="anchored" data-anchor-id="final-model-and-decision-regions">Final Model and Decision Regions</h4>
 <p>With our features now appropriately selected, we can construct our final model and plot the associated decision regions. In order to plot our decision regions, we have constructed the plot_regions function below, which will create a similarly formatted set of graphs as we previously produced, but with shading showing the classifying regions and barriers. This will help us better understand how the model is making these decisions.</p>
-<div class="cell" data-execution_count="49">
+<div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_regions(model, X, y):</span>
@@ -443,7 +451,7 @@ Model Score: 0.7647058823529411</code></pre>
 <span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>      plt.tight_layout()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We then create our final Random Forest Classifying model, fitted using the training data, and plot the decision regions along with the test data.</p>
-<div class="cell" data-execution_count="51">
+<div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>rfc <span class="op">=</span> RandomForestClassifier()</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cols <span class="op">=</span> [<span class="st">"Culmen Length (mm)"</span>, <span class="st">"Flipper Length (mm)"</span>, <span class="st">"Sex_FEMALE"</span>, <span class="st">"Sex_MALE"</span>]</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>rfc.fit(X_train[cols], y_train)</span>

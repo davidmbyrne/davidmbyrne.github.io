@@ -3,6 +3,7 @@
     "listing": "/index.html",
     "items": [
       "/posts/gradient-descent-blog-post/index.html",
+      "/posts/unsupervised-learning/index.html",
       "/posts/timnit-gebru/index.html",
       "/posts/perceptron-blog-post/index.html",
       "/posts/penguins-blog-post/index.html",
